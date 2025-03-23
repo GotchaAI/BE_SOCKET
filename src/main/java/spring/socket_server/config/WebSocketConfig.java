@@ -23,6 +23,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws-connect") //https로 변경시 wws로 변경
                 .setAllowedOriginPatterns("*")
                 .withSockJS(); // SockJS 지원
+
+        registry.addEndpoint("/ws-connect") // todo : 실제 배포시엔 삭제해야함
+                .setAllowedOriginPatterns("*");
     }
 
 }
