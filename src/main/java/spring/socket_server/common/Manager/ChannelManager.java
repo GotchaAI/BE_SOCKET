@@ -1,4 +1,4 @@
-package spring.socket_server.Manager;
+package spring.socket_server.common.Manager;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static spring.socket_server.config.WebSocketConstants.*;
+import static spring.socket_server.common.config.WebSocketConstants.*;
 
 @Component
 @RequiredArgsConstructor

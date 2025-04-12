@@ -1,4 +1,4 @@
-package spring.socket_server.config;
+package spring.socket_server.common.config;
 
 public interface WebSocketConstants {
     // 채팅 관련 채널

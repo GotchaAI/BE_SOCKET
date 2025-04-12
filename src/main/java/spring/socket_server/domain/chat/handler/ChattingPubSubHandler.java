@@ -1,10 +1,11 @@
-package spring.socket_server.pubsub;
+package spring.socket_server.domain.chat.handler;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import spring.socket_server.dto.ChatMessageReq;
+import spring.socket_server.common.handler.PubSubHandler;
+import spring.socket_server.domain.chat.dto.ChatMessageReq;
 
-import static spring.socket_server.config.WebSocketConstants.*;
+import static spring.socket_server.common.config.WebSocketConstants.*;
 
 @Service
 public class ChattingPubSubHandler extends PubSubHandler {

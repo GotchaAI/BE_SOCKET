@@ -1,4 +1,4 @@
-package spring.socket_server.config;
+package spring.socket_server.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
@@ -13,12 +13,11 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import spring.socket_server.pubsub.ChattingPubSubHandler;
-import spring.socket_server.pubsub.GamePubSubHandler;
+import spring.socket_server.domain.chat.handler.ChattingPubSubHandler;
+import spring.socket_server.domain.game.handler.GamePubSubHandler;
 
-import static spring.socket_server.config.WebSocketConstants.CHAT_PREFIX;
-import static spring.socket_server.config.WebSocketConstants.GAME_PREFIX;
-
+import static spring.socket_server.common.config.WebSocketConstants.CHAT_PREFIX;
+import static spring.socket_server.common.config.WebSocketConstants.GAME_PREFIX;
 
 @EnableCaching
 @Configuration

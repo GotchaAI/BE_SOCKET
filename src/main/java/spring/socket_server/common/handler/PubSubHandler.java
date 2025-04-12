@@ -1,4 +1,4 @@
-package spring.socket_server.pubsub;
+package spring.socket_server.common.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.redis.connection.Message;
