@@ -7,17 +7,16 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
-import spring.socket_server.common.Manager.ChannelManager;
+import spring.socket_server.common.manager.ChannelManager;
 import spring.socket_server.domain.game.api.GameApi;
 import spring.socket_server.domain.game.dto.GameReadyStatus;
-
-import static spring.socket_server.common.config.WebSocketConstants.*;
+import static spring.socket_server.common.constants.WebSocketConstants.*;
 
 //WebSocket으로 들어온 메시지를 Redis에 발행
 @Controller("/game")
 @RequiredArgsConstructor
 public class GameController implements GameApi {
-    private final RedisTemplate<String, Object> pubSubHandler;
+    private final RedisTemplate<String, String> redisTemplate;
     private final ChannelManager channelManager;
 
     // 1. 대기방 입장시 채널 관리
@@ -26,13 +25,13 @@ public class GameController implements GameApi {
         channelManager.subscribeToWaitingRoom(roomId, sessionId);
     }
 
-    // 3. 대기방 레디 상태 업데이트
+    // 2. 대기방 레디 상태 업데이트
     @MessageMapping("/ready/{roomId}")
     public void sendReadyStatus(@DestinationVariable String roomId, @Payload GameReadyStatus readyStatus) {
-        pubSubHandler.convertAndSend(GAME_READY_CHANNEL   + roomId, readyStatus);
+        redisTemplate.convertAndSend(GAME_READY_CHANNEL   + roomId, readyStatus);
     }
 
-    //todo : 5. 게임 시작 전 게임 정보(제시어) 전달
+    //3. 게임 시작 전 게임 정보(제시어) 전달
     @MessageMapping("/info/{roomId}")
     public void sendGameInfoBeforeStart(@DestinationVariable String roomId, String roundCount) { //라운드 수 같이 줘야 함.
     }
