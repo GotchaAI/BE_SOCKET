@@ -10,31 +10,31 @@ import org.springframework.stereotype.Controller;
 import spring.socket_server.domain.chat.api.ChattingApi;
 import spring.socket_server.domain.chat.dto.ChatMessageReq;
 
-import static spring.socket_server.common.config.WebSocketConstants.*;
+import static spring.socket_server.common.constants.WebSocketConstants.*;
 
 //WebSocket으로 들어온 메시지를 Redis에 발행
 @Controller("/chat")
 @RequiredArgsConstructor
 public class ChattingController implements ChattingApi {
-    private final RedisTemplate<String, Object> pubSubHandler;
+    private final RedisTemplate<String, String> redisTemplate;
 
     // 1. 전체 채팅방 메시지 전송
     @MessageMapping("/all")
     public void sendMessageToAll(@Payload ChatMessageReq message, @Header("simpSessionId") String sessionId) {
         // 현재 세션이 구독한 채널 조회
-        pubSubHandler.convertAndSend(CHAT_ALL_CHANNEL, message);
+        redisTemplate.convertAndSend(CHAT_ALL_CHANNEL, message.toJson());
     }
 
     // 2. 귓속말 전송
     @MessageMapping("/private")
     public void sendPrivateMessage(@Payload ChatMessageReq message) {
-        pubSubHandler.convertAndSend(CHAT_PRIVATE_CHANNEL + message.nickName(), message);
+        redisTemplate.convertAndSend(CHAT_PRIVATE_CHANNEL + message.nickName(), message.toJson());
     }
 
     // 3. 대기방 내 채팅
     @MessageMapping("/room/{roomId}")
     public void sendRoomMessage(@DestinationVariable String roomId, @Payload ChatMessageReq message) {
-        pubSubHandler.convertAndSend(CHAT_ROOM_CHANNEL + roomId, message);
+        redisTemplate.convertAndSend(CHAT_ROOM_CHANNEL + roomId, message);
     }
 
 }
