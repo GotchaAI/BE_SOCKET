@@ -2,10 +2,10 @@ package spring.socket_server.domain.game.handler;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import spring.socket_server.common.handler.PubSubHandler;
+import spring.socket_server.common.listener.PubSubHandler;
 import spring.socket_server.domain.game.dto.GameReadyStatus;
 
-import static spring.socket_server.common.config.WebSocketConstants.*;
+import static spring.socket_server.common.constants.WebSocketConstants.*;
 
 
 @Service

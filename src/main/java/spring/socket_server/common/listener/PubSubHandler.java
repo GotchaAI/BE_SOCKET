@@ -1,4 +1,4 @@
-package spring.socket_server.common.handler;
+package spring.socket_server.common.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.redis.connection.Message;
