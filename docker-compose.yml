@@ -1,15 +1,27 @@
-version: '3.8'
+version: "3.8"
+
 services:
   app:
-    image: jeongminju45/gotcha-socket-server:latest
+    image: myapp:v1  # 또는 v2로 교체 가능
+    container_name: spring-app
     ports:
       - "8080:8080"
-    env_file:
-      - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - redis
+    restart: always
 
   redis:
     image: redis:7-alpine
+    container_name: redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: always
+
+volumes:
+  redis-data:
