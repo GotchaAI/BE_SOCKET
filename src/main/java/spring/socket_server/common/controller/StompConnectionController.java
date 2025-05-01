@@ -19,7 +19,6 @@ public class StompConnectionController {
     public void onConnect(@Payload String nickName, @Header("simpSessionId") String sessionId) {
         channelManager.subscribeToInitialChannels(nickName, sessionId);
     }
-
     //자동배포 성공 테스트 주석
 
 }
