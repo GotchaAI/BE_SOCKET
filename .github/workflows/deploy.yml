@@ -50,6 +50,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user/myapp
-            docker pull $IMAGE_NAME:latest
+            docker pull jeongminju45/myapp:latest
             sed -i "s|image: myapp:.*|image: myapp:latest|" docker-compose.yml
             docker-compose up -d
