@@ -20,4 +20,6 @@ public class StompConnectionController {
         channelManager.subscribeToInitialChannels(nickName, sessionId);
     }
 
+    //자동배포 성공 테스트 주석
+
 }
