@@ -53,3 +53,4 @@ jobs:
             docker pull jeongminju45/myapp:latest
             sed -i "s|image: myapp:.*|image: myapp:latest|" docker-compose.yml
             docker-compose up -d
+
