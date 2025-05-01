@@ -7,11 +7,13 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
-import spring.socket_server.common.Manager.ChannelManager;
+import spring.socket_server.common.manager.ChannelManager;
 import spring.socket_server.domain.game.api.GameApi;
 import spring.socket_server.domain.game.dto.GameReadyStatus;
 
-import static spring.socket_server.common.config.WebSocketConstants.*;
+import spring.socket_server.common.constants.WebSocketConstants.*;
+
+import static spring.socket_server.common.constants.WebSocketConstants.*;
 
 //WebSocket으로 들어온 메시지를 Redis에 발행
 @Controller("/game")
