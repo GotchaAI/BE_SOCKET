@@ -3,3 +3,6 @@ spring:
     redis:
       host: ${REDIS_HOST:redis}
       port: ${REDIS_PORT:6379}
+
+server:
+  address: 0.0.0.0
