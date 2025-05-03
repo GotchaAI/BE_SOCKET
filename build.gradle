@@ -46,6 +46,12 @@ test {
     }
 }
 
+bootJar {
+    archiveBaseName.set("myapp")
+    archiveVersion.set("0.0.1-SNAPSHOT")  // 선택
+}
+
+
 tasks.named('test') {
     useJUnitPlatform()
 }
