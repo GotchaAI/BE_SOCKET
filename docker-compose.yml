@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: jeongminju45/myapp:latest  # 또는 v2로 교체 가능
+    image: jeongminju45/myapp:latest
     container_name: spring-app
     ports:
       - "8080:8080"
@@ -13,6 +13,7 @@ services:
     depends_on:
       - redis
     restart: always
+    command: ["/bin/sh", "-c", "while ! (echo > /dev/tcp/redis/6379) 2>/dev/null; do echo waiting for redis; sleep 1; done; java -jar /app.jar"]
 
   redis:
     image: redis:7-alpine
