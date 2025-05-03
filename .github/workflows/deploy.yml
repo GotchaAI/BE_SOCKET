@@ -25,6 +25,14 @@ jobs:
       - name: Grant execute permission to gradlew
         run: chmod +x ./gradlew
 
+      - name: Install AsyncAPI CLI
+        run: npm install -g @asyncapi/generator
+
+      - name: Generate AsyncAPI HTML docs
+        run: |
+          npx @asyncapi/generator asyncapi.yaml @asyncapi/html-template -o src/main/resources/static/docs
+      
+
       - name: Build JAR
         run: ./gradlew bootJar
 
@@ -51,6 +59,7 @@ jobs:
           script: |
             cd /home/ec2-user/myapp
             docker pull jeongminju45/myapp:latest
-            sed -i "s|image: myapp:.*|image: myapp:latest|" docker-compose.yml
+            sed -i "s|image:.*|image: jeongminju45/myapp:latest|" docker-compose.yml
             docker-compose up -d
+
 
