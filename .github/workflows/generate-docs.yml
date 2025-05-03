@@ -2,6 +2,7 @@ name: Generate AsyncAPI Docs
 
 on:
   push:
+    branches: [develop]
     paths:
       - "asyncapi.yaml"
 
