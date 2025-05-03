@@ -25,16 +25,9 @@ jobs:
       - name: Grant execute permission to gradlew
         run: chmod +x ./gradlew
 
-      - name: Install AsyncAPI CLI
-        run: npm install -g @asyncapi/generator
-
-      - name: Generate AsyncAPI HTML docs
-        run: |
-          npx @asyncapi/generator asyncapi.yaml @asyncapi/html-template -o src/main/resources/static/docs
-      
-
       - name: Build JAR
         run: ./gradlew bootJar
+
 
       - name: Log in to DockerHub
         uses: docker/login-action@v2
