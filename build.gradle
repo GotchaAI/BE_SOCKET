@@ -44,6 +44,13 @@ test {
     }
 }
 
+tasks.register('generateAsyncApiDocs', Exec) {
+    commandLine 'npx', '@asyncapi/generator', 'asyncapi.yaml', '@asyncapi/html-template', '-o', 'src/main/resources/static/docs'
+}
+
+bootJar {
+    dependsOn tasks.named('generateAsyncApiDocs')
+}
 
 tasks.named('test') {
     useJUnitPlatform()
