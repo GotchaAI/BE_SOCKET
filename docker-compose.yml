@@ -16,7 +16,7 @@ services:
     command: ["/bin/sh", "-c", "while ! (echo > /dev/tcp/redis/6379) 2>/dev/null; do echo waiting for redis; sleep 1; done; java -jar /app.jar"]
 
   redis:
-    image: redis:7-alpine
+    image: redis:7
     container_name: redis
     ports:
       - "6379:6379"
