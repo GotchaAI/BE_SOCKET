@@ -1,0 +1,10 @@
+asyncapi: '2.6.0'
+info:
+  title: Gotcha WebSocket API
+  version: '1.0.0'
+  description: WebSocket 명세서
+servers:
+  production:
+    url: http://13.209.221.128/ws-connect/
+    protocol: ws
+    description: WebSocket 핸드셰이크 엔드포인트
