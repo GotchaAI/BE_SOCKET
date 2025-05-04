@@ -15,6 +15,13 @@ public interface WebSocketConstants {
     String GAME_INFO_CHANNEL = GAME_CHANNEL + "info/"; // + roomId
     String GAME_START_CHANNEL = GAME_CHANNEL + "start/"; // + roomId
 
+    //대기방 관련 채널
+    String ROOM_PREFIX = "/sub/room/";
+    String ROOM_INIT_INFO = ROOM_PREFIX + "init/info/";
+    String ROOM_LEAVE = ROOM_PREFIX+"leave/";
+    String ROOM_CREATE = ROOM_PREFIX + "create/";
+    String ROOM_UPDATE = ROOM_PREFIX + "update/";
+
     // 게임 종료 메시지
     String GAME_END_MESSAGE = "게임 종료";
 }
