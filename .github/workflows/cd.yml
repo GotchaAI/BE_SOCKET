@@ -20,7 +20,7 @@ jobs:
 
       # 2. CI 단계에서 업로드한 .jar 파일 다운로드
       - name: Download built JAR
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: built-jar
 

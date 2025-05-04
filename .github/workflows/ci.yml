@@ -54,7 +54,7 @@ jobs:
 
       # 9. 빌드된 JAR 업로드 → CD에서 사용
       - name: Upload JAR artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: built-jar
           path: build/libs/myapp-0.0.1-SNAPSHOT.jar
