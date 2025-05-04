@@ -35,12 +35,11 @@ jobs:
       - name: List contents
         run: ls -R
 
-
       # .jar 파일 올바른 폴더경로로 옮기기
       - name: Move downloaded JAR to expected path
         run: |
           mkdir -p build/libs
-           mv myapp-0.0.1-SNAPSHOT.jar build/libs/
+          mv myapp-0.0.1-SNAPSHOT.jar build/libs/
 
 
       # 3. JDK 설치
