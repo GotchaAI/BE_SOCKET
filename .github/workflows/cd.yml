@@ -5,6 +5,10 @@ on:
     workflows: ["Continuous Integration"]
     types:
       - completed
+      -
+permissions:
+  actions: read
+  contents: read
 
 jobs:
   deploy:
@@ -18,11 +22,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. CI 단계에서 업로드한 .jar 파일 다운로드
-      - name: Download built JAR
+      - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
           name: built-jar
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       # 3. JDK 설치 (필요하면 생략 가능, 여기선 Docker build context에 사용될 수도 있음)
       - name: Set up JDK 17
