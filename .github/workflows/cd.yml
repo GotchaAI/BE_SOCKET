@@ -74,7 +74,7 @@ jobs:
           target: /home/ec2-user/myapp/
 
 
-      # 6. EC2로 배포 (고유 태그로 pull + 덮어쓰기)
+      # 6. EC2로 배포 (고유 태그로 pull )
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -93,5 +93,5 @@ jobs:
             docker rmi $IMAGE_NAME:$IMAGE_TAG || true
             docker pull $IMAGE_NAME:$IMAGE_TAG
 
-            sed -i "/app:/,/image:/s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
+            sed -i "/^\s*app:/,/^\s*[a-z]*:/ s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
             docker-compose up -d
