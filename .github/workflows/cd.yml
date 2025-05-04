@@ -41,7 +41,6 @@ jobs:
           mkdir -p build/libs
           mv myapp-0.0.1-SNAPSHOT.jar build/libs/
 
-
       # 3. JDK 설치
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -94,5 +93,5 @@ jobs:
             docker rmi $IMAGE_NAME:$IMAGE_TAG || true
             docker pull $IMAGE_NAME:$IMAGE_TAG
 
-            sed -i "s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
+            sed -i "/app:/,/image:/s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
             docker-compose up -d
