@@ -32,6 +32,5 @@ public enum RoomField {
                         "field", "지원하지 않는 필드입니다: " + name
                 ));
     }
-
 }
 
