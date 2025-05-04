@@ -63,6 +63,6 @@ jobs:
             docker pull $IMAGE_NAME:$IMAGE_TAG
 
             # docker-compose.yml에 이미지 태그 동적으로 반영
-            sed -i "s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
+            sed -i "/^\s*app:/,/^\s*[a-z]*:/ s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
 
             docker-compose up -d
