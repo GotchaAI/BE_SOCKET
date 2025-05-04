@@ -3,10 +3,6 @@ name: Continuous Integration
 on:
   push:
     branches: [develop]
-    paths:
-      - "**.java"
-      - "build.gradle*"
-      - "asyncapi.yaml"
 
 jobs:
   build-and-generate-docs:
