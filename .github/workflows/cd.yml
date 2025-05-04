@@ -20,7 +20,10 @@ jobs:
       # 1. 깃허브 저장소 코드 내려받기
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
+      # ci에서 저장한 artifacts(.jar) 파일 cd에서 다운 받기
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
@@ -28,6 +31,11 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.SCOPE_TOKEN }}
 
+      # 구조 파악
+      - name: List contents
+        run: ls -R
+
+      # .jar 파일 올바른 폴더경로로 옮기기
       - name: Move downloaded JAR to expected path
         run: |
           mkdir -p build/libs
