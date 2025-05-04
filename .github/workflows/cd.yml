@@ -1,8 +1,10 @@
 name: Continuous Deployment
 
 on:
-  push:
-    branches: [develop]
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types:
+      - completed
 
 jobs:
   deploy:
