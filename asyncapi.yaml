@@ -7,7 +7,7 @@ info:
   version: '1.0.0'
   description: |
     이 문서는 Gotcha 게임 플랫폼의 실시간 WebSocket(STOMP) 통신 명세서입니다.
-    SockJS를 통해 WebSocket 연결을 시도하며, 실패 시 fallback 메커니즘을 지원합니다.
+    SockJS를 통해 WebSocket 연결을 시도합니다.
   contact:
     name: Gotcha Dev Team
     email: gotcha@example.com
@@ -21,7 +21,7 @@ tags:
 
 servers:
   production:
-    url: http://13.209.221.128/ws-connect
+    url: http://43.202.159.231:8080/ws-connect
     protocol: ws
     description: >
       SockJS 기반 STOMP WebSocket 연결을 지원합니다.
@@ -41,3 +41,4 @@ channels:
               type: string
             userId:
               type: string
+
