@@ -20,6 +20,8 @@ jobs:
       # 1. 깃허브 저장소 코드 내려받기
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Download Artifacts
         uses: actions/download-artifact@v4
