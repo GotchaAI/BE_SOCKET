@@ -27,7 +27,7 @@ jobs:
         with:
           name: built-jar
           run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.SCOPE_TOKEN }}
 
       # 3. JDK 설치 (필요하면 생략 가능, 여기선 Docker build context에 사용될 수도 있음)
       - name: Set up JDK 17
