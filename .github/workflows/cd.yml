@@ -5,7 +5,7 @@ on:
     workflows: ["Continuous Integration"]
     types:
       - completed
-      -
+
 permissions:
   actions: read
   contents: read
@@ -13,7 +13,6 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     env:
       IMAGE_NAME: jeongminju45/myapp
 
@@ -53,7 +52,7 @@ jobs:
         shell: bash
 
       # 6. EC2로 배포 (고유 태그로 pull + 덮어쓰기)
-      - name: Deploy to EC2 via SSH
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -61,13 +60,15 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             IMAGE_TAG=${{ steps.set_version.outputs.VERSION }}
+            IMAGE_NAME=jeongminju45/myapp
+            cd /home/ec2-user/myapp
+            echo "🧪 IMAGE_NAME=$IMAGE_NAME"
+
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
             docker-compose down
             docker rmi $IMAGE_NAME:$IMAGE_TAG || true
             docker pull $IMAGE_NAME:$IMAGE_TAG
 
-            # docker-compose.yml에 이미지 태그 동적으로 반영
             sed -i "s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
-
             docker-compose up -d
