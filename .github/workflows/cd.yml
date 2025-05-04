@@ -94,5 +94,5 @@ jobs:
             docker rmi $IMAGE_NAME:$IMAGE_TAG || true
             docker pull $IMAGE_NAME:$IMAGE_TAG
 
-            sed -i "s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
+            sed -i "/^\s*app:/,/^\s*[a-z]*:/ s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|" docker-compose.yml
             docker-compose up -d
