@@ -2,7 +2,7 @@ name: Continuous Deployment
 
 on:
   workflow_run:
-    workflows: ["Continuous Integration"]  # CI 완료 시 자동 실행
+    workflows: ["Continuous Integration"]
     types:
       - completed
 
