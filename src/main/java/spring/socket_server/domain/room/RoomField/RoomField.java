@@ -29,7 +29,7 @@ public enum RoomField {
                 .filter(f -> f.name().equalsIgnoreCase(name))
                 .findFirst()
                 .orElseThrow(() -> new FieldValidationException(
-                        "field", "지원하지 않는 필드입니다: " + name
+                        "field", name+" : 지원하지 않는 필드입니다: "
                 ));
     }
 }
