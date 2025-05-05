@@ -1,10 +1,8 @@
 name: Continuous Deployment
 
 on:
-  workflow_run:
-    workflows: ["Continuous Integration"]
-    types:
-      - completed
+  push:
+    branches: [develop]
 
 permissions:
   actions: read
@@ -12,9 +10,6 @@ permissions:
 
 jobs:
   deploy:
-    if: >                   
-      github.event.workflow_run.head_branch == 'develop' &&
-      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: jeongminju45/myapp
@@ -24,25 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
-
-      # ci에서 저장한 artifacts(.jar) 파일 cd에서 다운 받기
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: built-jar
-          run-id: ${{ github.event.workflow_run.id }}
-          github-token: ${{ secrets.SCOPE_TOKEN }}
-
-      # 구조 파악
-      - name: List contents
-        run: ls -R
-
-      # .jar 파일 올바른 폴더경로로 옮기기
-      - name: Move downloaded JAR to expected path
-        run: |
-          mkdir -p build/libs
-          mv myapp-0.0.1-SNAPSHOT.jar build/libs/
+          ref: ${{ github.sha }}
 
       # 3. JDK 설치
       - name: Set up JDK 17
@@ -75,7 +52,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: docker-compose.yml
           target: /home/ec2-user/myapp/
-
 
       # 6. EC2로 배포 (고유 태그로 pull )
       - name: Deploy to EC2
