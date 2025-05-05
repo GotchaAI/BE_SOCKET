@@ -5,8 +5,11 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import spring.socket_server.common.exception.global.CustomException;
+import spring.socket_server.common.exception.global.GlobalExceptionCode;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -49,16 +52,15 @@ public abstract class PubSubHandler implements MessageListener {
 
     // 기본 핸들러: 알 수 없는 채널에 대한 처리
     private void handleUnknownChannel(String channel, String message) {
-        System.out.println("[알 수 없는 채널] " + channel + " 메시지: " + message);
+        throw new CustomException(GlobalExceptionCode.INVALID_CHANNEL);
     }
 
-    //todo : 소켓 내 에러 처리 로직 추가.
+    //입력받은 DTO -> String 형태의 JSON 변환 과정
     protected <T> T convertMessageToDto(String message, Class<T> dtoClass) {
         try {
             return objectMapper.readValue(message, dtoClass);
         } catch (Exception e) {
-            System.err.println("[JSON 변환 오류] " + e.getMessage());
-            return null;
+            throw new CustomException(GlobalExceptionCode.INVALID_MESSAGE_FORMAT);
         }
     }
 }
