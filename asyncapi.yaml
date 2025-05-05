@@ -24,8 +24,7 @@ servers:
       기본적으로 WebSocket(ws) 사용, 실패 시 HTTP long-polling 등으로 fallback 됩니다.
 
 channels:
-
-  /room/enter/{roomId}:
+  pub/room/enter/{roomId}:
     description: 클라이언트가 방 입장을 요청하는 채널
     parameters:
       roomId:
@@ -33,29 +32,6 @@ channels:
         schema:
           type: string
     publish:
-      summary: 방 입장 요청
-      operationId: enterRoom
-      message:
-        headers:
-          type: object
-          properties:
-            user-id:
-              type: string
-              description: 요청하는 사용자의 ID
-        payload:
-          type: object
-          description: 입력 페이로드 없음 (path/headers로 처리)
-
-  /room/leave/{roomId}:
-    description: 클라이언트가 방 퇴장(나감)을 요청하는 채널
-    parameters:
-      roomId:
-        description: 퇴장할 방의 ID
-        schema:
-          type: string
-    publish:
-      summary: 방 퇴장 요청
-      operationId: leaveRoom
       message:
         headers:
           type: object
@@ -67,11 +43,29 @@ channels:
           type: object
           description: 입력 페이로드 없음
 
-  /room/create:
+
+  pub/room/leave/{roomId}:
+    description: 클라이언트가 방 퇴장(나감)을 요청하는 채널
+    parameters:
+      roomId:
+        description: 퇴장할 방의 ID
+        schema:
+          type: string
+    publish:
+      message:
+        headers:
+          type: object
+          properties:
+            user-id:
+              type: string
+              description: 요청하는 사용자의 ID
+        payload:
+          type: object
+          description: 입력 페이로드 없음
+
+  pub/room/create:
     description: 클라이언트가 새 방을 생성 요청하는 채널
     publish:
-      summary: 방 생성 요청
-      operationId: createRoom
       message:
         headers:
           type: object
@@ -82,11 +76,9 @@ channels:
         payload:
           $ref: '#/components/schemas/CreateRoomRequest'
 
-  /room/update:
+  pub/room/update:
     description: 클라이언트가 방 속성을 수정 요청하는 채널
     publish:
-      summary: 방 정보 업데이트 요청
-      operationId: updateRoomField
       message:
         headers:
           type: object
@@ -105,8 +97,6 @@ channels:
         schema:
           type: string
     subscribe:
-      summary: 방 참가 완료 알림
-      operationId: onRoomInitInfo
       message:
         payload:
           type: object
@@ -144,8 +134,6 @@ channels:
         schema:
           type: string
     subscribe:
-      summary: 방 퇴장 알림
-      operationId: onRoomLeave
       message:
         payload:
           type: object
@@ -156,8 +144,6 @@ channels:
   /sub/room/create:
     description: 서버가 새 방 생성 알림 브로드캐스트
     subscribe:
-      summary: 방 생성 알림
-      operationId: onRoomCreate
       message:
         payload:
           $ref: '#/components/schemas/RoomMetadata'
@@ -170,8 +156,6 @@ channels:
         schema:
           type: string
     subscribe:
-      summary: 방 업데이트 알림
-      operationId: onRoomUpdate
       message:
         payload:
           $ref: '#/components/schemas/RoomMetadata'
