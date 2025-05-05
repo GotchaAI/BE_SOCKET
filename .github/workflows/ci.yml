@@ -67,12 +67,11 @@ jobs:
         with:
           name: built-jar
           path: build/libs/myapp-0.0.1-SNAPSHOT.jar
-
   ci-push:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Notify Merge Complete
-        run:
-          echo "✅ CI: develop 브랜치로 머지되었습니다. SHA=$GITHUB_SHA"
+        run: echo "develop 브랜치로 머지되었습니다. SHA=$GITHUB_SHA"
+
