@@ -9,7 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  build-and-generate-docs:
+  ci-pr:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
@@ -40,26 +41,3 @@ jobs:
           git add src/main/resources/static/docs
           git diff --cached --quiet || git commit -m "Auto-update AsyncAPI docs"
           git push || echo "Nothing to push"
-      
-
-      # 6. JDK 17 설치 (Spring Boot 빌드용)
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: temurin
-
-      # 7. gradlew 실행 권한 부여
-      - name: Grant execute permission to gradlew
-        run: chmod +x ./gradlew
-
-      # 8. JAR 빌드 (테스트 제외)
-      - name: Build JAR
-        run: ./gradlew build -x test
-
-      # 9. 빌드된 JAR 업로드 → CD에서 사용
-      - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: built-jar
-          path: build/libs/myapp-0.0.1-SNAPSHOT.jar

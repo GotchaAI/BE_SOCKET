@@ -15,10 +15,6 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
 
-tags:
-  - name: game
-    description: 실시간 게임 로비 및 채팅 관련 채널
-
 servers:
   production:
     url: http://43.202.159.231:8080/ws-connect
@@ -28,17 +24,193 @@ servers:
       기본적으로 WebSocket(ws) 사용, 실패 시 HTTP long-polling 등으로 fallback 됩니다.
 
 channels:
-  room/join:
-    subscribe:
-      operationId: onUserJoin
-      summary: 유저가 방에 입장했을 때 서버가 브로드캐스트
+  pub/room/enter/{roomId}:
+    description: 클라이언트가 방 입장을 요청하는 채널
+    parameters:
+      roomId:
+        description: 입장할 방의 ID
+        schema:
+          type: string
+    publish:
       message:
-        name: UserJoined
+        headers:
+          type: object
+          properties:
+            user-id:
+              type: string
+              description: 요청하는 사용자의 ID
+        payload:
+          type: object
+          description: 입력 페이로드 없음
+
+
+  pub/room/leave/{roomId}:
+    description: 클라이언트가 방 퇴장(나감)을 요청하는 채널
+    parameters:
+      roomId:
+        description: 퇴장할 방의 ID
+        schema:
+          type: string
+    publish:
+      message:
+        headers:
+          type: object
+          properties:
+            user-id:
+              type: string
+              description: 요청하는 사용자의 ID
+        payload:
+          type: object
+          description: 입력 페이로드 없음
+
+  pub/room/create:
+    description: 클라이언트가 새 방을 생성 요청하는 채널
+    publish:
+      message:
+        headers:
+          type: object
+          properties:
+            user-id:
+              type: string
+              description: 요청하는 사용자의 ID
+        payload:
+          $ref: '#/components/schemas/CreateRoomRequest'
+
+  pub/room/update:
+    description: 클라이언트가 방 속성을 수정 요청하는 채널
+    publish:
+      message:
+        headers:
+          type: object
+          properties:
+            user-id:
+              type: string
+              description: 요청하는 사용자의 ID
+        payload:
+          $ref: '#/components/schemas/UpdateRoomFieldRequest'
+
+  /sub/room/init/info/{roomId}:
+    description: 서버가 방 초기 정보(메타 + 참가자 목록) 브로드캐스트
+    parameters:
+      roomId:
+        description: 해당 방의 ID
+        schema:
+          type: string
+    subscribe:
+      message:
         payload:
           type: object
           properties:
             roomId:
               type: string
+            title:
+              type: string
+            owner:
+              type: string
+            hasPassword:
+              type: boolean
+            password:
+              type: string
+            max:
+              type: integer
+            min:
+              type: integer
+            aiLevel:
+              type: string
+            gameMode:
+              type: string
+            users:
+              type: array
+              items:
+                type: string
+            joinedUserId:
+              type: string
+
+  /sub/room/leave/{roomId}:
+    description: 서버가 방 퇴장 알림 브로드캐스트
+    parameters:
+      roomId:
+        description: 해당 방의 ID
+        schema:
+          type: string
+    subscribe:
+      message:
+        payload:
+          type: object
+          properties:
             userId:
               type: string
 
+  /sub/room/create:
+    description: 서버가 새 방 생성 알림 브로드캐스트
+    subscribe:
+      message:
+        payload:
+          $ref: '#/components/schemas/RoomMetadata'
+
+  /sub/room/update/{roomId}:
+    description: 서버가 방 정보 변경 알림 브로드캐스트
+    parameters:
+      roomId:
+        description: 해당 방의 ID
+        schema:
+          type: string
+    subscribe:
+      message:
+        payload:
+          $ref: '#/components/schemas/RoomMetadata'
+
+components:
+  schemas:
+    CreateRoomRequest:
+      type: object
+      properties:
+        roomId:
+          type: string
+        title:
+          type: string
+        hasPassword:
+          type: boolean
+        password:
+          type: string
+        gameMode:
+          type: object
+          properties:
+            name:
+              type: string
+            maxPlayers:
+              type: integer
+            minPlayers:
+              type: integer
+
+    UpdateRoomFieldRequest:
+      type: object
+      properties:
+        roomId:
+          type: string
+        field:
+          type: string
+          description: 변경할 필드명 (e.g. \"OWNER\", \"TITLE\" 등)
+        value:
+          type: string
+          description: 변경할 값
+
+    RoomMetadata:
+      type: object
+      properties:
+        title:
+          type: string
+        owner:
+          type: string
+        hasPassword:
+          type: boolean
+        password:
+          type: string
+        max:
+          type: integer
+        min:
+          type: integer
+        aiLevel:
+          type: string
+        gameMode:
+          type: string
