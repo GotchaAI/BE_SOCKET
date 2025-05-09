@@ -7,7 +7,6 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
-import spring.socket_server.domain.chat.api.ChattingApi;
 import spring.socket_server.domain.chat.dto.ChatMessageReq;
 
 import static spring.socket_server.common.constants.WebSocketConstants.*;
@@ -15,7 +14,7 @@ import static spring.socket_server.common.constants.WebSocketConstants.*;
 //WebSocket으로 들어온 메시지를 Redis에 발행
 @Controller("/chat")
 @RequiredArgsConstructor
-public class ChattingController implements ChattingApi {
+public class ChattingController {
     private final RedisTemplate<String, String> redisTemplate;
 
     // 1. 전체 채팅방 메시지 전송
