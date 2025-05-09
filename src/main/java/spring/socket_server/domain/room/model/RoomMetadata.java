@@ -12,6 +12,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomMetadata {
+    private String id;
     private String title;
     private String owner;
     private boolean hasPassword;
@@ -21,8 +22,10 @@ public class RoomMetadata {
     private String aiLevel;
     private String gameMode;
 
-    public static RoomMetadata fromRedisMap(Map<Object, Object> map) {
+
+    public static RoomMetadata fromRedisMap(String id, Map<Object, Object> map) {
         RoomMetadata metadata = new RoomMetadata();
+        metadata.id = id;
         metadata.title = (String) map.getOrDefault("title", "");
         metadata.owner = (String) map.getOrDefault("owner", "");
         metadata.hasPassword = Boolean.parseBoolean((String) map.getOrDefault("hasPassword", "false"));
